@@ -89,7 +89,7 @@
 
       $id = (ISSET($_GET['id']) && is_numeric($_GET['id'])) ? $_GET['id'] : 0;
 
-      $class_name = ($id == 0) ? "company-name-visible" : "company-name-hidden";
+      $class_name = "company-name-visible";
 
       ?>
       <center><div class="request-table">

@@ -86,8 +86,6 @@
 
                      $sql .= ");";
 
-                     echo $sql;
-
                      $stmt = $sys->db()->prepare($sql);
 
                      $stmt->bindValue(":ld_id", $id, PDO::PARAM_INT);

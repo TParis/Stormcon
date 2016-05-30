@@ -80,7 +80,11 @@ $(document).ready(function() {
       }
    });
 
+   //Send update request form
    if ($("select[name='company-list']").length) {
+      if (querystring("id") != 0) {
+         $(".company-name-visible").css("display", "none");
+      }
       $("select[name='company-list']").change(function () {
          if ($(this).val() != 0) {
             $(".company-name-visible").css("display", "none");
