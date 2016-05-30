@@ -17,7 +17,7 @@
 
 ?>
 <header class="entry-header">
-   <h1 class="entry-title"><?php echo get_Project_Title($id) ?> - Batch Plant - <?php echo ucwords($action) ?></h1>
+   <h1 class="entry-title"><?php echo ""; ?> - Batch Plant - <?php echo ucwords($action) ?></h1>
 </header>
 <div class="entry-content">
 <?php

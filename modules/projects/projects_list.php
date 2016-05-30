@@ -15,13 +15,13 @@
 
          $table_name    = "projects";
          $url_name         = str_replace(" ", "_", $table_name);
-         $select_columns   = "[project_name], [project_number], [project_city], [project_owner]";
-         $order_by         = "[project_name]";
+         $select_columns   = "proj_name, proj_city, proj_state, proj_zip";
+         $order_by         = "proj_name";
 
          $page_limit       = (ISSET($_GET['limit']) && is_numeric($_GET['limit'])) ? $_GET['limit'] : 20;
 
          //Start to build SQL Statement for general results
-         $sql              = "SELECT project_id, " . $select_columns . " FROM [dbo].[" . $table_name . "]";
+         $sql              = "SELECT proj_id, " . $select_columns . " FROM [dbo].[" . $table_name . "]";
          $count_sql        = "SELECT Count(*) FROM [dbo].[" . $table_name . "]";
 
          //Search
@@ -110,9 +110,9 @@
          echo "\t" . $row_div . "\n";
          echo "\t\t" . $label_div . "Actions" . $close_div . "\n";
          echo "\t\t" . $label_div . "Name" . $close_div . "\n";
-         echo "\t\t" . $label_div . "Number" . $close_div . "\n";
-         echo "\t\t" . $label_div . "Location" . $close_div . "\n";
-         echo "\t\t" . $label_div . "Owner" . $close_div . "\n";
+         echo "\t\t" . $label_div . "City" . $close_div . "\n";
+         echo "\t\t" . $label_div . "State" . $close_div . "\n";
+         echo "\t\t" . $label_div . "Zipcode" . $close_div . "\n";
          echo "\t" . $close_div . "\n";
 
          if (empty($results)) {
@@ -126,9 +126,9 @@
             echo "\t" . $row_div . "\n";
 
             echo "\t\t" . $data_div;
-               echo "<a href=\"?page=" . $url_name . "_item&action=view&id=" . $row['project_id'] . "\"><img src=\"/images/view.png\"></a>&nbsp;";
-               echo "<a href=\"?page=" . $url_name . "_item&action=edit&id=" . $row['project_id'] . "\"><img src=\"/images/edit.png\"></a>&nbsp;";
-               echo "<a href=\"?page=" . $url_name . "_item&action=delete&id=" . $row['project_id'] . "\" class=\"item-delete\"><img src=\"/images/delete.png\"></a>";
+               echo "<a href=\"?page=" . $url_name . "_item&action=view&id=" . $row['proj_id'] . "\"><img src=\"/images/view.png\"></a>&nbsp;";
+               echo "<a href=\"?page=" . $url_name . "_item&action=edit&id=" . $row['proj_id'] . "\"><img src=\"/images/edit.png\"></a>&nbsp;";
+               echo "<a href=\"?page=" . $url_name . "_item&action=delete&id=" . $row['proj_id'] . "\" class=\"item-delete\"><img src=\"/images/delete.png\"></a>";
             echo $close_div . "\n";
             echo "\t\t" . $data_div . substr($row[1],0,30) . $close_div . "\n";
             echo "\t\t" . $data_div . substr($row[2],0,30) . $close_div . "\n";

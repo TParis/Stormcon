@@ -18,11 +18,12 @@ echo "Welcome, <strong>" . $sys->auth()->user_name . "</strong>";
    <a href="?page=user_management_item&action=edit&id=<?php echo $sys->auth()->user_id; ?>">Edit Profile</a>
 </div>
 <br>
+<?php getQOTD(); ?>
 <br>
 <div class="home-table">
    <div class="home-row">
       <div class="page-updates">
-         <h1 align=center>Latest Edits</h1>
+         <h1 align=center>Recent Project Changes</h1>
          <br>
          <div class="data_table">
             <div class="data_row">
@@ -102,8 +103,8 @@ echo "Welcome, <strong>" . $sys->auth()->user_name . "</strong>";
                $last_update = ($request['last_update'] == 0) ? "Never" : date('Y-m-d', $request['last_update']);
 
                echo "<div class=\"data_row " . $row_color . "\">";
-                  echo "<div class=\"column_data bold\">" . $request['Company name'] . "</div>";
-                  echo "<div class=\"column_data\">" . $request_status . "</div>";
+                  echo "<div class=\"column_data bold\">" . htmlspecialchars($request['Company name']) . "</div>";
+                  echo "<div class=\"column_data\">" . htmlspecialchars($request_status) . "</div>";
                   echo "<div class=\"column_data\">" . $last_update . "</div>";
                echo "</div>";
 

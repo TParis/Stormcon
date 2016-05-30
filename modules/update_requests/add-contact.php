@@ -46,6 +46,7 @@
               "contact_division"       => "",
               "contact_epa_number"     => "",
               "contact_er_number"      => "",
+              "contact_noi_signer"     => "",
 
               ));
 
@@ -79,17 +80,18 @@
 
             $company = $stmt->fetch()['Company name'];
 
-            $first_name       = (ISSET($_POST['contact-first-name']) && preg_match("/^[a-zA-Z0-9]*$/",$_POST['contact-first-name'])) ? $_POST['contact-first-name'] : null;
-            $last_name        = (ISSET($_POST['contact-last-name']) && preg_match("/^[a-zA-Z0-9]*$/",$_POST['contact-last-name'])) ? $_POST['contact-last-name'] : null;
-            $er_number        = (ISSET($_POST['contact-er-number']) && preg_match("/^[a-zA-Z0-9]*$/",$_POST['contact-er-number'])) ? $_POST['contact-er-number'] : null;
+            $first_name       = (ISSET($_POST['contact-first-name']) && preg_match("/^[a-zA-Z0-9 ]*$/",$_POST['contact-first-name'])) ? $_POST['contact-first-name'] : null;
+            $last_name        = (ISSET($_POST['contact-last-name']) && preg_match("/^[a-zA-Z0-9 ]*$/",$_POST['contact-last-name'])) ? $_POST['contact-last-name'] : null;
+            $er_number        = (ISSET($_POST['contact-er-number']) && preg_match("/^[a-zA-Z0-9 ]*$/",$_POST['contact-er-number'])) ? $_POST['contact-er-number'] : null;
             $phone_number     = (ISSET($_POST['contact-phone']) && preg_match("/^[\+0-9\-\(\)\s]*$/",$_POST['contact-phone'])) ? $_POST['contact-phone'] : null;
             $email            = (ISSET($_POST['contact-email']) && filter_var($_POST['contact-email'], FILTER_VALIDATE_EMAIL)) ? $_POST['contact-email'] : null;
-            $title            = (ISSET($_POST['contact-title']) && preg_match("/^[a-zA-Z0-9]*$/",$_POST['contact-title'])) ? $_POST['contact-title'] : null;
-            $division         = (ISSET($_POST['contact-division']) && preg_match("/^[a-zA-Z0-9]*$/",$_POST['contact-division'])) ? $_POST['contact-division'] : null;
-            $epa_number       = (ISSET($_POST['contact-epa-number']) && preg_match("/^[a-zA-Z0-9]*$/",$_POST['contact-epa-number'])) ? $_POST['contact-epa-number'] : null;
+            $title            = (ISSET($_POST['contact-title']) && preg_match("/^[a-zA-Z0-9 ]*$/",$_POST['contact-title'])) ? $_POST['contact-title'] : null;
+            $division         = (ISSET($_POST['contact-division']) && preg_match("/^[a-zA-Z0-9 ]*$/",$_POST['contact-division'])) ? $_POST['contact-division'] : null;
+            $epa_number       = (ISSET($_POST['contact-epa-number']) && preg_match("/^[a-zA-Z0-9 ]*$/",$_POST['contact-epa-number'])) ? $_POST['contact-epa-number'] : null;
             $cell_number      = (ISSET($_POST['contact-cell-phone']) && preg_match("/^[\+0-9\-\(\)\s]*$/",$_POST['contact-cell-phone'])) ? $_POST['contact-cell-phone'] : null;
+            $noi_signer       = (ISSET($_POST['contact-noi-signer']) && $_POST['contact-noi-signer'] == "on") ? 1 : 0;
 
-            $stmt = $sys->db()->prepare("INSERT INTO contacts VALUES (:first_name, :last_name, :er_number, :company, :phone_number, :email, :title, :division, :epa_number, :cell_number);");
+            $stmt = $sys->db()->prepare("INSERT INTO contacts VALUES (:first_name, :last_name, :er_number, :company, :phone_number, :email, :title, :division, :epa_number, :cell_number, '', :noi_signer, '');");
 
             $stmt->bindParam(":first_name",     $first_name);
             $stmt->bindParam(":last_name",      $last_name);
@@ -101,6 +103,7 @@
             $stmt->bindParam(":division",       $division);
             $stmt->bindParam(":epa_number",       $epa_number);
             $stmt->bindParam(":cell_number",       $cell_number);
+            $stmt->bindParam(":noi_signer",       $noi_signer);
 
             $stmt->execute();
 

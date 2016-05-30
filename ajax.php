@@ -48,6 +48,10 @@
          case "get-soil-list":
             include("modules/ajax/get_soil_list.php");
             break;
+			
+		 case "populate_dropdown":
+            include("modules/ajax/populate_dropdowns.php");
+            break;
 
          default:
 

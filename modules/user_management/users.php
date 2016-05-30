@@ -169,9 +169,9 @@ if (!defined("__INSYS__")  || !$sys->auth()->user_admin) {
                }
                echo "<a href=\"?page=user_management_item&action=delete&id=" . $row['user_id'] . "\" class=\"item-delete\"><img src=\"/images/delete.png\"></a>";
             echo $close_div . "\n";
-            echo "\t\t" . $data_div . $row[1] . $close_div . "\n";
-            echo "\t\t" . $data_div . $row[2] . $close_div . "\n";
-            echo "\t\t" . $data_div . "<a class=\"wp\" href=\"mailto:" . $row[3] . "\">" . $row[3] . "</a>" . $close_div . "\n";
+            echo "\t\t" . $data_div . htmlspecialchars($row[1]) . $close_div . "\n";
+            echo "\t\t" . $data_div . htmlspecialchars($row[2]) . $close_div . "\n";
+            echo "\t\t" . $data_div . "<a class=\"wp\" href=\"mailto:" . htmlspecialchars($row[3]) . "\">" . htmlspecialchars($row[3]) . "</a>" . $close_div . "\n";
 
             $is_active = ($row['user_active']) ? "Active" : "Disabled";
 

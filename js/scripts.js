@@ -131,5 +131,65 @@ $(document).ready(function() {
          });
       }
    }
+   
+
+	var form_original_data = $("form").serialize();
+	var page_load = Date.now() + 2000;
+
+	window.setTimeout(function() {
+		form_original_data = $("form").serialize();
+	}, 2000);
+
+	$( "a" ).click(function() {
+		curr_time = Date.now()
+		if (form_original_data && $("form").serialize() != form_original_data && curr_time > page_load) {
+                answer = confirm("Unsaved changes will be lost if you click \"OK\".")
+				return answer
+        }
+	});
+	
+	if (typeof prefix != "undefined" && $("select[name='" + prefix + "sedi_pond']")) {
+		status = $("select[name='" + prefix + "sedi_pond']").val()
+		if (status == "Yes") {
+			$("textarea[name='" + prefix + "sedi_pond_feasible']").parent().parent().css("display", "none")
+			$("textarea[name='" + prefix + "sedi_pond_design']").parent().parent().css("display", "table-row")
+			$("textarea[name='" + prefix + "sedi_pond_const']").parent().parent().css("display", "table-row")
+			$("textarea[name='" + prefix + "sedi_pond_maint']").parent().parent().css("display", "table-row")
+		} else if (status == "No") {
+			$("textarea[name='" + prefix + "sedi_pond_feasible']").parent().parent().css("display", "table-row")
+			$("textarea[name='" + prefix + "sedi_pond_design']").parent().parent().css("display", "none")
+			$("textarea[name='" + prefix + "sedi_pond_const']").parent().parent().css("display", "none")
+			$("textarea[name='" + prefix + "sedi_pond_maint']").parent().parent().css("display", "none")
+		} else {
+			$("textarea[name='" + prefix + "sedi_pond_feasible']").parent().parent().css("display", "none")
+			$("textarea[name='" + prefix + "sedi_pond_design']").parent().parent().css("display", "none")
+			$("textarea[name='" + prefix + "sedi_pond_const']").parent().parent().css("display", "none")
+			$("textarea[name='" + prefix + "sedi_pond_maint']").parent().parent().css("display", "none")
+		}
+		
+		$("select[name='" + prefix + "sedi_pond']").change(function() {
+			status = $("select[name='" + prefix + "sedi_pond']").val()
+			if (status == "Yes") {
+				$("textarea[name='" + prefix + "sedi_pond_feasible']").parent().parent().css("display", "none")
+				$("textarea[name='" + prefix + "sedi_pond_design']").parent().parent().css("display", "table-row")
+				$("textarea[name='" + prefix + "sedi_pond_const']").parent().parent().css("display", "table-row")
+				$("textarea[name='" + prefix + "sedi_pond_maint']").parent().parent().css("display", "table-row")
+			} else if (status == "No") {
+				$("textarea[name='" + prefix + "sedi_pond_feasible']").parent().parent().css("display", "table-row")
+				$("textarea[name='" + prefix + "sedi_pond_design']").parent().parent().css("display", "none")
+				$("textarea[name='" + prefix + "sedi_pond_const']").parent().parent().css("display", "none")
+				$("textarea[name='" + prefix + "sedi_pond_maint']").parent().parent().css("display", "none")
+			} else {
+				$("textarea[name='" + prefix + "sedi_pond_feasible']").parent().parent().css("display", "none")
+				$("textarea[name='" + prefix + "sedi_pond_design']").parent().parent().css("display", "none")
+				$("textarea[name='" + prefix + "sedi_pond_const']").parent().parent().css("display", "none")
+				$("textarea[name='" + prefix + "sedi_pond_maint']").parent().parent().css("display", "none")
+			}
+		});
+	}
+	
+	$("#swppp-menu").change(function() {
+		window.location.href = $(this).val();
+	});
 
 });

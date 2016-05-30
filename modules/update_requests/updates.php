@@ -52,9 +52,9 @@
 
                array_push($arrContacts, array(
                   "contact_id" => $contact['ID'],
-                  "contact_name" => $contact['First name'] . " " . $contact['Last name'],
-                  "contact_phone" => $contact['Phone number'],
-                  "contact_division" => $contact['Division'],
+                  "contact_name" => htmlspecialchars($contact['First name'] . " " . $contact['Last name']),
+                  "contact_phone" => htmlspecialchars($contact['Phone number']),
+                  "contact_division" => htmlspecialchars($contact['Division']),
                ));
 
            }
@@ -64,24 +64,24 @@
            $template->setValues(array(
 
               "request_key"         => $key,
-              "company_legal_name"  => $result['Legal Company Name'],
-              "company_name"        => $result['Company name'],
-              "company_phone"       => $result['Phone number'],
-              "company_fax"         => $result['Fax Number'],
-              "company_url"         => $result['Web address'],
-              "company_address"     => $result['Address'],
-              "company_street"      => $result['Street'],
-              "company_city"        => $result['City'],
-              "company_state"       => $result['State'],
-              "company_zip"         => $result['Zip'],
-              "company_employees"   => $result['Number of employees'],
-              "company_type"        => $result['Type of company'],
-              "company_division"    => $result['Division'],
-              "company_state_tax"   => $result['State tax id'],
-              "company_fed_tax"     => $result['Federal tax id'],
-              "company_sos"         => $result['SOS #'],
-              "company_cn"          => $result['CN number'],
-              "company_sic"         => $result['SIC code'],
+              "company_legal_name"  => htmlspecialchars($result['Legal Company Name']),
+              "company_name"        => htmlspecialchars($result['Company name']),
+              "company_phone"       => htmlspecialchars($result['Phone number']),
+              "company_fax"         => htmlspecialchars($result['Fax Number']),
+              "company_url"         => htmlspecialchars($result['Web address']),
+              "company_address"     => htmlspecialchars($result['Address']),
+              "company_street"      => htmlspecialchars($result['Street']),
+              "company_city"        => htmlspecialchars($result['City']),
+              "company_state"       => htmlspecialchars($result['State']),
+              "company_zip"         => htmlspecialchars($result['Zip']),
+              "company_employees"   => htmlspecialchars($result['Number of employees']),
+              "company_type"        => htmlspecialchars($result['Type of company']),
+              "company_division"    => htmlspecialchars($result['Division']),
+              "company_state_tax"   => htmlspecialchars($result['State tax id']),
+              "company_fed_tax"     => htmlspecialchars($result['Federal tax id']),
+              "company_sos"         => htmlspecialchars($result['SOS #']),
+              "company_cn"          => htmlspecialchars($result['CN number']),
+              "company_sic"         => htmlspecialchars($result['SIC code']),
               "loop:contacts"       => $arrContacts,
 
               ));

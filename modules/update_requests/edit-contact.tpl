@@ -42,6 +42,10 @@
       <div class="column_data bold">ER Number</div>
       <div class="column_data"><input class="edit2" type="text" name="contact-er-number" value="{contact_er_number}"></div>
    </div>
+   <div class="data_row">
+      <div class="column_data bold">NOI Signer?</div>
+      <div class="column_data"><input class="edit2" type="checkbox" name="contact-noi-signer" {contact_noi_signer}></div>
+   </div>
 </div>
 <input class="submit-center" type="submit" value="Submit Contact">&nbsp;&nbsp;&nbsp;<input class="cancel" type="button" value="Cancel" onClick="window.history.back()">
 </form>

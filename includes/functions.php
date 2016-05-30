@@ -1,5 +1,7 @@
 <?php
 
+require_once("core.php");
+
 if (!defined("__INSYS__")) {
    die("Error: Malformed Request");
 }
@@ -41,25 +43,6 @@ function limit_string($str, $num) {
    }
 }
 
-function get_Project_Title($id) {
-
-   global $sys;
-
-   if (!ISSET($id) || $id == 0) {
-      return "New";
-   }
-
-   $stmt = $sys->db()->prepare("SELECT project_name FROM [dbo].[projects] WHERE project_id = :project_id;");
-   $stmt->bindParam(":project_id", $id);
-
-   $stmt->execute();
-
-   $results = $stmt->fetchAll();
-
-   return $results[0]['project_name'];
-
-}
-
 function LogActivity($username, $action, $additionalinfo = "none") {
   global $sys;
 
@@ -99,4 +82,29 @@ function LogActivity($username, $action, $additionalinfo = "none") {
 
 function emailAddy($email) {
    return "<a href=\"mailto:" . $email . "\">" . $email . "</a>";
+}
+
+function debug($string) {
+	global $sys;
+	
+	if (core::$DEBUG === TRUE) {
+		echo $string;
+	}
+}
+
+function getQOTD() {
+	$url = "https://www.quotesdaddy.com/feed";
+	
+	$rss = new DOMDocument();
+	$rss->load($url);
+
+	$node = $rss->getElementsByTagName('item')->item(0);
+	$item = array ( 
+			'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
+			'desc' => $node->getElementsByTagName('description')->item(0)->nodeValue,
+			'link' => $node->getElementsByTagName('link')->item(0)->nodeValue,
+			'date' => $node->getElementsByTagName('pubDate')->item(0)->nodeValue,
+	);
+	
+	echo "<center>" . $item['desc'] . "</center>";
 }

@@ -71,7 +71,7 @@
          echo "<div class=\"data_row " . $row_color . "\">";
             echo "<div class=\"column_data\">" . $request_action . "</div>";
             echo "<div class=\"column_data bold\">" . $request['Company name'] . "</div>";
-            echo "<div class=\"column_data\">" . $request_status . "</div>";
+            echo "<div class=\"column_data\">" . htmlspecialchars($request_status) . "</div>";
             echo "<div class=\"column_data\">" . $last_update . "</div>";
          echo "</div>";
 
@@ -120,6 +120,7 @@
                         </select><br>
             <div class="<?php echo $class_name; ?>"><br>Company Name: <input class="select" type="text" name="company-name"></div><br>
             Email: <input class="select" type="text" name="company-email"><br><br>
+            Message (Optional):<br /><textarea class="request-select" name="message-text" rows="7" cols="40"></textarea><br><br>
             <input class="submit" type="submit" value="Send">
          </form>
       </div></center>
@@ -135,6 +136,7 @@
       $email = (ISSET($_POST['company-email']) && filter_var($_POST['company-email'], FILTER_VALIDATE_EMAIL)) ? $_POST['company-email'] : false;
       $list = (ISSET($_POST['company-list']) && is_numeric($_POST['company-list'])) ? $_POST['company-list'] : false;
       $name = (ISSET($_POST['company-name']) && preg_match("/^[a-zA-Z0-9& ]*$/",$_POST['company-name'])) ? $_POST['company-name'] : false;
+      $msg = (ISSET($_POST['message-text']) && preg_match("/^[a-zA-Z0-9& ]*$/",$_POST['message-text'])) ? $_POST['message-text'] : '';
 
       if (!$email) {
 
@@ -175,6 +177,7 @@
                   We are requesting that you update your contact details in our database so we may maintain accurate data
                   that will be used to develop our Swormwater Pollution Prevent Plans (SWPPP).  These updates are invaluable
                   for the efficiency of the project and your cooperation will assist us in providing a quality plan.\n
+				  \n " . $msg . "
                   \n
                   To complete the updates, please click this link: \n";
          $body .="<a href=\"" . $sys->base_url . "?page=updates&key=" . $key . "\">Click here to update</a>\n";
@@ -192,7 +195,7 @@
 
          LogActivity($sys->auth()->user_name, "SENT UPDATE REQUEST_ID: " . $sys->db()->lastInsertId(), "TO COMPANY_ID: " . $list . " USING EMAIL ADDRESS: " . $email . " AND KEY: " . $key);
 
-         echo "Update request sent successfully &nbsp;&nbsp;&nbsp;";
+         echo "Update request sent successfully &nbsp;&nbsp;&nbsp;<br>";
 
       }
 

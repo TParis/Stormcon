@@ -247,7 +247,7 @@
                      case "textfield-edit":
                         echo $row_div . "\n";
                         echo $label_div . ucwords(str_replace("_", " ", $table_fields[$i]["COLUMN_NAME"])) . $close_div . "\n";
-                        echo $data_div . "<textarea rows=\"4\" cols=\"50\" maxlength=\"2500\" name=\"" . $table_fields[$i]["COLUMN_NAME"] . "\">" . $results[$table_fields[$i]["COLUMN_NAME"]] . "</textarea>" . $close_div . "\n";
+                        echo $data_div . "<textarea rows=\"4\" cols=\"50\" maxlength=\"2500\" name=\"" . $table_fields[$i]["COLUMN_NAME"] . "\">" . htmlspecialchars($results[$table_fields[$i]["COLUMN_NAME"]]) . "</textarea>" . $close_div . "\n";
                         echo "\t" . $close_div . "\n";
                         break;
                      case "user_active-view":
@@ -263,7 +263,7 @@
                         echo $row_div . "\n";
                         echo $label_div . ucwords(str_replace("_", " ", $table_fields[$i]["COLUMN_NAME"])) . $close_div . "\n";
                         echo $data_div;
-                        echo $results[$table_fields[$i]["COLUMN_NAME"]];
+                        echo htmlspecialchars($results[$table_fields[$i]["COLUMN_NAME"]]);
                         echo $close_div . "\n";
                         echo "\t" . $close_div . "\n";
                         break;
@@ -290,7 +290,7 @@
                         echo $row_div . "\n";
                         echo $label_div . ucwords(str_replace("_", " ", $table_fields[$i]["COLUMN_NAME"])) . $close_div . "\n";
                         echo $data_div;
-                        echo emailAddy($results[$table_fields[$i]["COLUMN_NAME"]]);
+                        echo emailAddy(htmlspecialchars($results[$table_fields[$i]["COLUMN_NAME"]]));
                         echo $close_div . "\n";
                         echo "\t" . $close_div . "\n";
                         break;
@@ -315,10 +315,10 @@
                         echo $row_div . "\n";
                         if ($action == "edit" || $action == "add") {
                            echo $label_div . ucwords(str_replace("_", " ", $table_fields[$i]["COLUMN_NAME"])) . $close_div . "\n";
-                           echo $data_div . "<input class=\"edit\" type=\"text\" value=\"" . $results[$table_fields[$i]["COLUMN_NAME"]] . "\" name=\"" . $table_fields[$i]["COLUMN_NAME"] . "\"></input>" . $close_div . "\n";
+                           echo $data_div . "<input class=\"edit\" type=\"text\" value=\"" . htmlspecialchars($results[$table_fields[$i]["COLUMN_NAME"]]) . "\" name=\"" . $table_fields[$i]["COLUMN_NAME"] . "\"></input>" . $close_div . "\n";
                            } else {
                            echo $label_div . ucwords(str_replace("_", " ", $table_fields[$i]["COLUMN_NAME"])) . $close_div . "\n";
-                           echo $data_div . $results[$table_fields[$i]["COLUMN_NAME"]] . $close_div . "\n";
+                           echo $data_div . htmlspecialchars($results[$table_fields[$i]["COLUMN_NAME"]]) . $close_div . "\n";
                         }
                         echo "\t" . $close_div . "\n";
                  }

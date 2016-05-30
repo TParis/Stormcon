@@ -130,10 +130,10 @@
                echo "<a href=\"?page=" . $table_name . "_item&action=edit&id=" . $row['id'] . "\"><img src=\"/images/edit.png\"></a>&nbsp;";
                echo "<a href=\"?page=" . $table_name . "_item&action=delete&id=" . $row['id'] . "\" class=\"item-delete\"><img src=\"/images/delete.png\"></a>";
             echo $close_div . "\n";
-            echo "\t\t" . $data_div . $row[1] . $close_div . "\n";
-            echo "\t\t" . $data_div . $row[2] . $close_div . "\n";
-            echo "\t\t" . $data_div . $row[3] . $close_div . "\n";
-            echo "\t\t" . $data_div . $row[4] . $close_div . "\n";
+            echo "\t\t" . $data_div . htmlspecialchars($row[1]) . $close_div . "\n";
+            echo "\t\t" . $data_div . limit_string(htmlspecialchars($row[2]), 30) . $close_div . "\n";
+            echo "\t\t" . $data_div . limit_string(htmlspecialchars($row[3]), 30) . $close_div . "\n";
+            echo "\t\t" . $data_div . limit_string(htmlspecialchars($row[4]), 30) . $close_div . "\n";
 
             echo "\t" . $close_div . "\n";
 

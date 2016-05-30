@@ -1,166 +1,116 @@
 $(document).ready(function() {
 
-   //List of contact fields
+	//List of contact fields
+	$.each(data, function(index) {
+		obj = $(this);
+		sel = "";
+		el = "";
+		
+		$.each($(this)[0], function(index) {
+			if (index != "constraints" && index != "table_name") {
+				sel	=	obj[0][index]
+				el	=	index
+				return false;
+			}
+		});
+		
+		//Change
+		$("select[name='" + el + "']").change({sel: sel, el: el, obj: obj},function(event) {
+				setFields($("select[name='" + event.data.el + "'").val(), event.data.sel, event.data.el, event.data.obj)
+		});
+		
+		populateDropDowns(obj, el, sel);
+		
+	});
+	
+	function populateDropDowns(obj, el, sel) {
+		
+		if (typeof obj[0]['constraints'] != 'undefined') {
+			$.each(obj[0]['constraints'], function(index) {
+				input  = obj[0]['constraints'][index];
+				var mytype = typeof input;
+				if (mytype == "string") {
+					if ($("select[name='" + input + "']").val() != "") {
+						obj[0]['constraints'][index] = $("select[name='" + input + "']").val();
+					} else {
+						obj[0]['constraints'][index] = $("select[name='" + input + "']").attr("value");
+					}
+				}
+			});
+		}
+		
+		$.post("ajax.php?action=populate_dropdown",
+			{
+				table_name: obj[0]['table_name'],
+				constraints: (typeof obj[0]['constraints'] != 'undefined') ? JSON.stringify(obj[0]['constraints']) : 'none',			
+				column: sel,
+				field: el,
+			},
+			function(data, status) {
+				if (data.indexOf("Fatal") < 0) {
+					items = JSON.parse(data);
+					
+					el	=	$("select[name='" + items[0] + "']");
+					el.find('option').remove();
+        		    el.append('<option value=\"\">Select One</option>');
+					
+					$.each(items[1], function(index) {
+						if ($(this)[0][0] != null) {
+							if (el.attr("value") == $(this)[0][0]) {
+								el.append('<option value="' + escapeHtml($(this)[0][0]) + '" SELECTED>' + escapeHtml($(this)[0][0]) + '</option>');
+							} else {
+								el.append('<option value="' + escapeHtml($(this)[0][0]) + '">' + escapeHtml($(this)[0][0]) + '</option>');
+							}
+						}
+					});
+				}
+			}
+		);
+	}
+	
+	function setFields(value, sel, el, obj) {
+		$.ajax({
+				url: "ajax.php?action=populate_dropdown",
+				context: obj,
+				method: "POST",
+				data: {
+					table_name: obj[0]['table_name'],
+					constraints: "{\"" + sel + "\":\"" + value + "\"}",			
+					column: '*',
+					field: el,
+				},
+				cache: false,
+			})
+			.done(function(data, status) {
+				items = JSON.parse(data);
+				obj = $(this);
+				$.each($(this)[0], function(index) {
+					if (index != "constraints" && index != "table_name" && index != el) {
+						arrIndex = obj[0][index];
+						if (typeof arrIndex != "object") {
+							arrIndex = arrIndex.replace("[", "").replace("]","")
+							item_data = items[1][0][arrIndex]
+							$("[name='" + index + "']").val(item_data);
+						} else {
+							el = index
+							sel = arrIndex[el]
+							populateDropDowns({0: arrIndex}, el, sel);							
+						}
+					}
+				});
+			});
+	};
+	
+	function escapeHtml(text) {
+	  var map = {
+		'&': '&amp;',
+		'<': '&lt;',
+		'>': '&gt;',
+		'"': '&quot;',
+		"'": '&#039;'
+	  };
+	
+	  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+	}
 
-   //Auto-fill in fields
-   $(".contact").change(function() {
-
-      field_id = $(this).attr('name').replace("_name", "");
-
-      if ($(this).val() != "") {
-         contact_name = $(this).val();
-
-         $.get("ajax.php?action=get-contact-list&contact=" + contact_name, function(data, status) {
-
-               arrData = $.parseJSON(data);
-
-               console.log(arrData);
-
-               if ($("input[name='" + field_id + "_phone']").length) {
-                  $("input[name='" + field_id + "_phone']").val(arrData[0]['Contact phone']);
-               }
-               if ($("input[name='" + field_id + "_email']").length) {
-                  $("input[name='" + field_id + "_email']").val(arrData[0]['Email']);
-               }
-               if ($("input[name='" + field_id + "_title']").length) {
-                  $("input[name='" + field_id + "_title']").val(arrData[0]['Title']);
-               }
-               if ($("select[name='" + field_id + "_company']").length) {
-                  $("select[name='" + field_id + "_company']").val(arrData[0]['Company']);
-               }
-               if ($("input[name='" + field_id + "_fax']").length) {
-                  $("input[name='" + field_id + "_fax']").val(arrData[0]['Fax Number']);
-               }
-
-         });
-      } else {
-               if ($("input[name='" + field_id + "_phone']").length) {
-                  $("input[name='" + field_id + "_phone']").val("");
-               }
-               if ($("input[name='" + field_id + "_email']").length) {
-                  $("input[name='" + field_id + "_email']").val("");
-               }
-               if ($("input[name='" + field_id + "_title']").length) {
-                  $("input[name='" + field_id + "_title']").val("");
-               }
-               if ($("select[name='" + field_id + "_company']").length) {
-                  $("select[name='" + field_id + "_company']").val("");
-               }
-               if ($("input[name='" + field_id + "_fax']").length) {
-                  $("input[name='" + field_id + "_fax']").val("");
-               }
-      }
-   });
-
-   $(".soil").change(function() {
-
-      field_id = $(this).attr('name').substr(0, $(this).attr('name').lastIndexOf("_"));
-
-      $.get("ajax.php?action=get-soil-data&soil=" + $(this).val(), function(data, status) {
-         arrData = $.parseJSON(data);
-         console.log(arrData);
-         $("input[name='" + field_id + "_hsg']").val(arrData[0]["Soil hydrologic Group"]);
-         $("input[name='" + field_id + "_k']").val(arrData[0]["K factor"]);
-      });
-   });
-
-   $(".company").change(function() {
-
-      field_id = $(this).attr('name').substr(0, $(this).attr('name').lastIndexOf("_"));
-
-      $.get("ajax.php?action=get-company-list&company=" + $(this).val(), function(data, status) {
-         arrData = $.parseJSON(data);
-         console.log(arrData);
-
-         if ($("select[name='" + field_id + "'").length) {
-
-            obj = $("select[name='" + field_id + "'")
-
-            obj.find('option').remove();
-            obj.append('<option value=\"\">Select One</option>');
-
-            $.each(arrData,function(key, value)
-            {
-                obj.append('<option value=\"' + value['Name'] + '\">' + value['Name'] + '</option>');
-            });
-         }
-
-      });
-
-
-   });
-
-   $(".contacts-name").change(function() {
-
-      $field_id = $(this).attr('name').split(" ");
-
-      $.get("ajax.php?action=get-contact-list&contact=" + $(this).val(), function(data, status) {
-         arrData = $.parseJSON(data);
-         console.log(arrData);
-         if ($field_id[0] != "inspector") {
-            $("input[name='Contact phone " + $field_id[1] + "']").val(arrData[0]["Contact phone"]);
-            $("input[name='Contact email " + $field_id[1] + "']").val(arrData[0]["Email"]);
-            $("input[name='contact fax " + $field_id[1] + "']").val(arrData[0]["Fax Number"]);
-         }
-      });
-
-
-   });
-
-   //Populate lists
-   $.get("ajax.php?action=get-soil-list", function(data, status) {
-      arrData = $.parseJSON(data);
-      console.log(arrData);
-
-
-      $(".soil").each(function() {
-         elem = $(this);
-
-         $.each(arrData,function(key, value) {
-            if (elem.attr("value") == value['Soil name']) {
-               elem.append('<option value=\"' + value['Soil name'] + '\" SELECTED>' + value['Soil name'] + '</option>');
-            } else {
-               elem.append('<option value=\"' + value['Soil name'] + '\">' + value['Soil name'] + '</option>');
-            }
-         });
-      });
-   });
-
-   $.get("ajax.php?action=get-contact-list", function(data, status) {
-
-      arrData = $.parseJSON(data);
-      console.log(arrData);
-
-      $(".contact").each(function() {
-
-         elem = $(this);
-
-         $.each(arrData,function(key, value) {
-            if (elem.attr("value") == value['Name']) {
-               elem.append('<option value=\"' + value['Name'] + '\" SELECTED>' + value['Name'] + '</option>');
-            } else {
-               elem.append('<option value=\"' + value['Name'] + '\">' + value['Name'] + '</option>');
-            }
-         });
-      });
-   });
-
-   $.get("ajax.php?action=get-company-list", function(data, status) {
-
-      arrData = $.parseJSON(data);
-      console.log(arrData);
-
-      $(".company").each(function() {
-
-         elem = $(this);
-
-         $.each(arrData,function(key, value) {
-            if (elem.attr("value") == value['Company name']) {
-               elem.append('<option value=\"' + value['Company name'] + '\" SELECTED>' + value['Company name'] + '</option>');
-            } else {
-               elem.append('<option value=\"' + value['Company name'] + '\">' + value['Company name'] + '</option>');
-            }
-         });
-      });
-   });
 });

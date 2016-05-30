@@ -204,13 +204,13 @@
                   echo "<input type=\"hidden\" name=\"submit-action\" value=\"" . $action . "\">";
               }
 
-              if ($action != "view") {
+              if ($action != "view" && $action != "add") {
                  echo "<a href=\"?page=" . $table_name . "_item&action=view&id=" . $id . "\"><img src=\"/images/view.png\"></a>&nbsp;";
               }
-              if ($action != "edit") {
+              if ($action != "edit" && $action != "add") {
                  echo "<a href=\"?page=" . $table_name . "_item&action=edit&id=" . $id . "\"><img src=\"/images/edit.png\"></a>&nbsp;";
               }
-              if ($action != "delete") {
+              if ($action != "delete" && $action != "add") {
                   echo "<a href=\"?page=" . $table_name . "_item&action=delete&id=" . $id . "\" class=\"item-delete\"><img src=\"/images/delete.png\"></a>&nbsp;";
               }
 
@@ -237,10 +237,10 @@
                        echo $row_div . "\n";
                        if ($action == "edit" || $action == "add") {
                           echo $label_div . ucwords($table_fields[$i]["COLUMN_NAME"]) . $close_div . "\n";
-                          echo $data_div . "<textarea class=\"edit\" rows=50 cols=100 name=\"" . $table_fields[$i]["COLUMN_NAME"] . "\">" . $results[$table_fields[$i]["COLUMN_NAME"]] . "</textarea>" . $close_div . "\n";
+                          echo $data_div . "<textarea class=\"edit\" rows=50 cols=100 maxlength=\"" . $table_fields[$i]["LENGTH"] . "\" name=\"" . $table_fields[$i]["COLUMN_NAME"] . "\">" . htmlspecialchars($results[$table_fields[$i]["COLUMN_NAME"]]) . "</textarea>" . $close_div . "\n";
                           } else {
                           echo $label_div . ucwords($table_fields[$i]["COLUMN_NAME"]) . $close_div . "\n";
-                          echo $data_div . $results[$table_fields[$i]["COLUMN_NAME"]] . $close_div . "\n";
+                          echo $data_div . htmlspecialchars($results[$table_fields[$i]["COLUMN_NAME"]]) . $close_div . "\n";
                        }
                        echo "\t" . $close_div . "\n";
                  }
@@ -258,13 +258,13 @@
 
               echo "<br>";
 
-              if ($action != "view") {
+              if ($action != "view" && $action != "add") {
                  echo "<a href=\"?page=" . $table_name . "_item&action=view&id=" . $id . "\"><img src=\"/images/view.png\"></a>&nbsp;";
               }
-              if ($action != "edit") {
+              if ($action != "edit" && $action != "add") {
                  echo "<a href=\"?page=" . $table_name . "_item&action=edit&id=" . $id . "\"><img src=\"/images/edit.png\"></a>&nbsp;";
               }
-              if ($action != "delete") {
+              if ($action != "delete" && $action != "add") {
                   echo "<a href=\"?page=" . $table_name . "_item&action=delete&id=" . $id . "\" class=\"item-delete\"><img src=\"/images/delete.png\"></a>&nbsp;";
               }
 

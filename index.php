@@ -34,8 +34,8 @@
       <meta name="viewport" content="width=device-width" />
       <title>Stormcon LLC | SWPPP Management System</title>
       <link rel='stylesheet' id='twentytwelve-style-css'  href='css/styles.css' type='text/css' media='all' />
-      <link rel='canonical' href='http://stormcon.sitedevbox.com/' />
-      <link rel='shortlink' href='http://stormcon.sitedevbox.com/' />
+      <link rel='canonical' href='<?php echo $sys->base_url; ?>' />
+      <link rel='shortlink' href='<?php echo $sys->base_url; ?>' />
       <link rel="stylesheet" href="css/nav_styles.css">
       <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
       <link href='http://fonts.googleapis.com/css?family=Lato:400,100,300,700' rel='stylesheet' type='text/css'>
@@ -62,11 +62,7 @@
    <body class="home">
       <div id="page" class="container">
          <header id="masthead" class="site-header" role="banner">
-<a href="http://stormcon-php.azurewebsites.net/" title="Stormcon LLC";"><div class="header"></div></a>
-            <hgroup>
-               <!--<h1 class="site-title"><a href="<?php echo $sys->base_url; ?>" title="Stormcon LLC" rel="home">Stormcon LLC</a></h1>
-               <h2 class="site-description">SWPPP Management System</h2>-->
-            </hgroup>
+			<a href="<?php echo $sys->base_url; ?>" title="Stormcon LLC";"><div class="header"></div></a>
 
             <nav id="site-navigation" class="main-navigation" role="navigation">
                <div id="cssmenu" class="wrapper">
@@ -83,13 +79,15 @@
                      <li><a>Configuration</a>
                         <ul>
                            <li><a href="<?php echo $sys->base_url; ?>?page=bmps">BMPs</a></li>
+                           <li><a href="<?php echo $sys->base_url; ?>?page=endangered_species">Endangered Species</a></li>
+                           <li><a href="<?php echo $sys->base_url; ?>?page=inspection_schedule">Inspection Schedules</a></li>
                            <li><a href="<?php echo $sys->base_url; ?>?page=responsibility">Responsibilities</a></li>
                            <li class="last"><a href="<?php echo $sys->base_url; ?>?page=soils">Soils</a></li>
                         </ul>
                      </li>
                      <li><a href="<?php echo $sys->base_url; ?>?page=projects">SWPPPs</a>
                         <ul>
-                               <li><a href="<?php echo $sys->base_url; ?>?page=hb_LENNAR_HB">LENNAR HB</a></li>
+                               <li><a href="<?php echo $sys->base_url; ?>?page=hb_LENNAR_HB">Lennar HB</a></li>
                                <li class="last"><a href="<?php echo $sys->base_url; ?>?page=ld_Lennar_LD">Lennar LD</a></li>
                         </ul>
                      <?php /*
@@ -176,6 +174,7 @@
                            switch($page) {
                               case "logout":
                                  @$auth->deletesession($sys->auth()->session_hash);
+								 echo "<br><h1 align=center>You've been logged out.</h1><br><a href=\"?page=login\" style=\"color: #0000FF;\">Click here to login</a>";
                                  break;
 
                               /* ENTITIES */
@@ -206,6 +205,18 @@
                                  break;
                               case "bmps_item":
                                  include("modules/bmps/bmps_item.php");
+                                 break;
+                              case "endangered_species":
+                                 include("modules/endangered_species/endangered_species_list.php");
+                                 break;
+                              case "endangered_species_item":
+                                 include("modules/endangered_species/endangered_species_item.php");
+                                 break;
+                              case "inspection_schedule":
+                                 include("modules/inspection_schedule/inspection_schedule_list.php");
+                                 break;
+                              case "inspection_schedule_item":
+                                 include("modules/inspection_schedule/inspection_schedule_item.php");
                                  break;
                               case "responsibility":
                                  include("modules/responsibility/responsibility_list.php");

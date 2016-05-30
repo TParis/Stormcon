@@ -3,6 +3,7 @@
 require_once("auth.php");
 require_once("config.php");
 require_once("database.php");
+require_once("functions.php");
 
 if (!defined("__INSYS__")) {
    die("Error: Malformed Request");
@@ -20,7 +21,9 @@ class core {
    public $base_url;
    public $auth_conf;
    public $loc;
+   public $page;
    public $mail;
+   public static $DEBUG = FALSE;
 
    public function __construct($dbh) {
 
@@ -41,12 +44,21 @@ class core {
       $this->base_url   =  $base_url;
       $this->auth_conf  =  $auth_conf;
 	  
-	  
-	  
 	  $this->mail		= array(
 				"user"	=> "azure_9bf4550c87e9fd06f10e6804e9572f37@azure.com",
 				"pass"	=> "TXL5G3e40bHqwhF",
 				"api"	=> "https://api.sendgrid.com/");
+	  
+	 //Get Requests
+	 $page			= (ISSET($_GET['page'])) ? $_GET['page'] : "home";
+	 $action		= (ISSET($_GET['action'])) ? $_GET['action'] : "view";
+	 $id			= (ISSET($_GET['id']) && is_numeric($_GET['id'])) ? $_GET['id'] : false;
+	  
+	  $this->page		=	(object) Array(
+	  		"page"			=> $page,
+	  		"action"		=> $action,
+			"id"			=> $id,
+   		);
    }
 
    public function db() {
