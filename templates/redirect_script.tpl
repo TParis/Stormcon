@@ -1,0 +1,1 @@
+<script language="javascript" type="text/javascript">window.location = "{{redirect_to}}";</script>
